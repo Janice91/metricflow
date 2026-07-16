@@ -30,7 +30,7 @@ body {
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
-  background-attachment: fixed,chment: fixed,chment;
+  background-attachment: fixed, fixed, fixed, fixed;
 }
 
 .font-mono-data {
