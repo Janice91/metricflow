@@ -2,6 +2,8 @@
 
 Dashboard SaaS pour agences marketing : centralise le suivi des performances publicitaires de plusieurs clients et visualise leurs résultats.
 
+**Démo en ligne :** https://metricflow-tan.vercel.app
+
 ## Le problème
 
 Les agences marketing gèrent plusieurs clients en même temps, chacun avec ses propres campagnes publicitaires. Elles perdent du temps à collecter les chiffres client par client et à construire des rapports manuellement.
