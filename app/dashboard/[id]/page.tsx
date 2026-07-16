@@ -109,7 +109,7 @@ export default function ClientDetailPage() {
             </div>
             <div className="rounded-lg border border-[#E4E4E0] bg-white p-4">
               <p className="text-[11px] text-[#565B6B]">Clics</p>
-              <p className="font-mono-data mt-1 text-xl font-semibold text-[#0F9D6E]">{totalClicks}</p>
+              <p className="font-mono-data mt-1 text-xl font-semibold text-[#10B981]">{totalClicks}</p>
             </div>
             <div className="rounded-lg border border-[#E4E4E0] bg-white p-4">
               <p className="text-[11px] text-[#565B6B]">Conversions</p>
@@ -148,7 +148,7 @@ export default function ClientDetailPage() {
                   <YAxis fontSize={11} stroke="#565B6B" tickLine={false} axisLine={false} />
                   <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #E4E4E0', fontSize: 12 }} />
                   <Bar dataKey="spend" fill="#4F46E5" name="Dépenses" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="clicks" fill="#0F9D6E" name="Clics" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="clicks" fill="#10B981" name="Clics" radius={[3, 3, 0, 0]} />
                   <Bar dataKey="conversions" fill="#E8590C" name="Conversions" radius={[3, 3, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -166,7 +166,7 @@ export default function ClientDetailPage() {
                   <p className="font-mono-data text-xs text-[#565B6B]">
                     <span className="text-[#4F46E5]">{c.spend}€</span>
                     {' · '}
-                    <span className="text-[#0F9D6E]">{c.clicks} clics</span>
+                    <span className="text-[#10B981]">{c.clicks} clics</span>
                     {' · '}
                     <span className="text-[#E8590C]">{c.conversions} conv.</span>
                   </p>
