@@ -3,20 +3,34 @@
 :root {
   --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
-  --ink: #14171F;
-  --ink-soft: #565B6B;
-  --paper: #F7F7F5;
-  --card: #FFFFFF;
-  --line: #E4E4E0;
-  --accent: #4F46E5;
-  --accent-soft: #EEF0FF;
-  --spend: #4F46E5;
-  --clicks: #10B981;
-  --conv: #E8590C;
+  --ink: #F2F3F7;
+  --ink-soft: #8A90A6;
+  --paper: #0A0D16;
+  --card: #12151F;
+  --card-alt: #171B28;
+  --line: #232838;
+  --accent: #6366F1;
+  --accent-soft: rgba(99, 102, 241, 0.12);
+  --spend: #818CF8;
+  --clicks: #34D399;
+  --conv: #FB923C;
+}
+
+html {
+  background: var(--paper);
 }
 
 body {
   font-family: var(--font-sans);
+  min-height: 100vh;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(ellipse 900px 600px at 100% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(ellipse 700px 500px at -10% 110%, rgba(52, 211, 153, 0.10), transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
+  background-attachment: fixed,chment: fixed,chment;
 }
 
 .font-mono-data {
