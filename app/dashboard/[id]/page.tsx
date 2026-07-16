@@ -78,61 +78,104 @@ export default function ClientDetailPage() {
     doc.save(`rapport-${clientName}.pdf`)
   }
 
+  const totalSpend = campaigns.reduce((s, c) => s + Number(c.spend), 0)
+  const totalClicks = campaigns.reduce((s, c) => s + Number(c.clicks), 0)
+  const totalConversions = campaigns.reduce((s, c) => s + Number(c.conversions), 0)
+
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="mx-auto max-w-2xl">
-        <button onClick={() => router.push('/dashboard')} className="mb-4 text-sm text-blue-600">
-          Retour aux clients
-        </button>
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Campagnes - {clientName}</h1>
+    <div className="min-h-screen">
+      <header className="border-b border-[#E4E4E0] bg-white">
+        <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
+          <button onClick={() => router.push('/dashboard')} className="flex items-center gap-1.5 text-xs text-[#565B6B] transition hover:text-[#4F46E5]">
+            <span aria-hidden>←</span> Clients
+          </button>
           {campaigns.length > 0 && (
-            <button onClick={exportPDF} className="rounded bg-green-600 px-4 py-2 text-sm text-white">
+            <button onClick={exportPDF} className="rounded-md border border-[#E4E4E0] bg-white px-3 py-1.5 text-xs font-medium text-[#14171F] transition hover:border-[#4F46E5]/40 hover:text-[#4F46E5]">
               Exporter en PDF
             </button>
           )}
         </div>
+      </header>
 
-        <form onSubmit={addCampaign} className="mb-6 grid grid-cols-2 gap-2 rounded border bg-white p-4">
-          <input placeholder="Nom de la campagne" value={name}
-            onChange={(e) => setName(e.target.value)} className="col-span-2 rounded border p-2" />
-          <input placeholder="Depenses (EUR)" type="number" value={spend}
-            onChange={(e) => setSpend(e.target.value)} className="rounded border p-2" />
-          <input placeholder="Clics" type="number" value={clicks}
-            onChange={(e) => setClicks(e.target.value)} className="rounded border p-2" />
-          <input placeholder="Conversions" type="number" value={conversions}
-            onChange={(e) => setConversions(e.target.value)} className="rounded border p-2" />
-          <button type="submit" className="col-span-2 rounded bg-blue-600 p-2 text-white">
+      <main className="mx-auto max-w-3xl px-6 py-10">
+        <p className="font-mono-data text-[11px] uppercase tracking-widest text-[#565B6B]">Campagnes</p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#14171F]">{clientName || '…'}</h1>
+
+        {campaigns.length > 0 && (
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            <div className="rounded-lg border border-[#E4E4E0] bg-white p-4">
+              <p className="text-[11px] text-[#565B6B]">Dépenses</p>
+              <p className="font-mono-data mt-1 text-xl font-semibold text-[#4F46E5]">{totalSpend}€</p>
+            </div>
+            <div className="rounded-lg border border-[#E4E4E0] bg-white p-4">
+              <p className="text-[11px] text-[#565B6B]">Clics</p>
+              <p className="font-mono-data mt-1 text-xl font-semibold text-[#0F9D6E]">{totalClicks}</p>
+            </div>
+            <div className="rounded-lg border border-[#E4E4E0] bg-white p-4">
+              <p className="text-[11px] text-[#565B6B]">Conversions</p>
+              <p className="font-mono-data mt-1 text-xl font-semibold text-[#E8590C]">{totalConversions}</p>
+            </div>
+          </div>
+        )}
+
+        <form onSubmit={addCampaign} className="mt-6 rounded-xl border border-[#E4E4E0] bg-white p-5">
+          <p className="mb-3 text-xs font-medium text-[#565B6B]">Ajouter une campagne</p>
+          <div className="grid grid-cols-2 gap-2">
+            <input placeholder="Nom de la campagne" value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="col-span-2 rounded-md border border-[#E4E4E0] bg-[#F7F7F5] px-3 py-2 text-sm outline-none transition focus:border-[#4F46E5] focus:bg-white focus:ring-2 focus:ring-[#EEF0FF]" />
+            <input placeholder="Dépenses (€)" type="number" value={spend}
+              onChange={(e) => setSpend(e.target.value)}
+              className="rounded-md border border-[#E4E4E0] bg-[#F7F7F5] px-3 py-2 text-sm outline-none transition focus:border-[#4F46E5] focus:bg-white focus:ring-2 focus:ring-[#EEF0FF]" />
+            <input placeholder="Clics" type="number" value={clicks}
+              onChange={(e) => setClicks(e.target.value)}
+              className="rounded-md border border-[#E4E4E0] bg-[#F7F7F5] px-3 py-2 text-sm outline-none transition focus:border-[#4F46E5] focus:bg-white focus:ring-2 focus:ring-[#EEF0FF]" />
+            <input placeholder="Conversions" type="number" value={conversions}
+              onChange={(e) => setConversions(e.target.value)}
+              className="col-span-2 rounded-md border border-[#E4E4E0] bg-[#F7F7F5] px-3 py-2 text-sm outline-none transition focus:border-[#4F46E5] focus:bg-white focus:ring-2 focus:ring-[#EEF0FF]" />
+          </div>
+          <button type="submit" className="mt-3 w-full rounded-md bg-[#4F46E5] py-2.5 text-sm font-medium text-white transition hover:bg-[#4338CA]">
             Ajouter la campagne
           </button>
         </form>
 
         {campaigns.length > 0 && (
-          <div className="mb-6 h-64 rounded border bg-white p-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={campaigns}>
-                <XAxis dataKey="name" fontSize={12} />
-                <YAxis fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="spend" fill="#3b5bdb" name="Depenses" />
-                <Bar dataKey="clicks" fill="#2f9e44" name="Clics" />
-                <Bar dataKey="conversions" fill="#e8590c" name="Conversions" />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="mt-6 rounded-xl border border-[#E4E4E0] bg-white p-5">
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={campaigns}>
+                  <XAxis dataKey="name" fontSize={11} stroke="#565B6B" tickLine={false} axisLine={{ stroke: '#E4E4E0' }} />
+                  <YAxis fontSize={11} stroke="#565B6B" tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #E4E4E0', fontSize: 12 }} />
+                  <Bar dataKey="spend" fill="#4F46E5" name="Dépenses" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="clicks" fill="#0F9D6E" name="Clics" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="conversions" fill="#E8590C" name="Conversions" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         )}
 
-        <ul className="space-y-2">
-          {campaigns.map((c) => (
-            <li key={c.id} className="rounded border bg-white p-4">
-              <p className="font-medium">{c.name}</p>
-              <p className="text-sm text-gray-500">
-                {c.spend}EUR - {c.clicks} clics - {c.conversions} conversions
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {campaigns.length > 0 && (
+          <ul className="mt-6 space-y-2">
+            {campaigns.map((c) => (
+              <li key={c.id} className="flex items-center gap-3 rounded-lg border border-[#E4E4E0] bg-white px-4 py-3">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-[#4F46E5]" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-[#14171F]">{c.name}</p>
+                  <p className="font-mono-data text-xs text-[#565B6B]">
+                    <span className="text-[#4F46E5]">{c.spend}€</span>
+                    {' · '}
+                    <span className="text-[#0F9D6E]">{c.clicks} clics</span>
+                    {' · '}
+                    <span className="text-[#E8590C]">{c.conversions} conv.</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </main>
     </div>
   )
 }
