@@ -1,10 +1,12 @@
 'use client'
+// Ce composant affiche les campagnes d'un client precis (l'id vient de l'URL)
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import jsPDF from 'jspdf'
 
+// A quoi ressemble une "campagne" (une ligne de la table campaigns)
 type Campaign = {
   id: string
   name: string
@@ -14,9 +16,10 @@ type Campaign = {
 }
 
 export default function ClientDetailPage() {
+  // useParams recupere le morceau [id] dans l'URL, ex: /dashboard/70b6cb81...
   const { id } = useParams<{ id: string }>()
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
-  const [clientName, setClientName] = useState('')
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]) // les campagnes de ce client
+  const [clientName, setClientName] = useState('') // le nom du client (pour l'affichage et le PDF)
   const [name, setName] = useState('')
   const [spend, setSpend] = useState('')
   const [clicks, setClicks] = useState('')
@@ -24,20 +27,24 @@ export default function ClientDetailPage() {
   const supabase = createClient()
   const router = useRouter()
 
+  // Recharge les donnees a chaque fois que l'id du client change
   useEffect(() => { loadData() }, [id])
 
   async function loadData() {
+    // On va chercher le nom du client correspondant a cet id
     const { data: client } = await supabase.from('clients').select('name').eq('id', id).single()
     if (client) setClientName(client.name)
+    // On va chercher toutes les campagnes qui appartiennent a ce client
     const { data } = await supabase.from('campaigns').select('*').eq('client_id', id).order('created_at', { ascending: false })
     setCampaigns(data || [])
   }
 
+  // Ajoute une nouvelle campagne pour ce client
   async function addCampaign(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) return
     await supabase.from('campaigns').insert({
-      client_id: id,
+      client_id: id, // on relie cette campagne au client actuel
       name,
       spend: Number(spend) || 0,
       clicks: Number(clicks) || 0,
@@ -47,8 +54,10 @@ export default function ClientDetailPage() {
     loadData()
   }
 
+  // Genere un fichier PDF avec le resume des performances, puis le telecharge
   function exportPDF() {
     const doc = new jsPDF()
+    // On calcule les totaux en additionnant toutes les campagnes
     const totalSpend = campaigns.reduce((sum, c) => sum + Number(c.spend), 0)
     const totalClicks = campaigns.reduce((sum, c) => sum + Number(c.clicks), 0)
     const totalConversions = campaigns.reduce((sum, c) => sum + Number(c.conversions), 0)
@@ -70,14 +79,16 @@ export default function ClientDetailPage() {
     doc.text('Detail par campagne', 14, 96)
     let y = 106
     doc.setFontSize(10)
+    // On ecrit une ligne par campagne dans le PDF
     campaigns.forEach((c) => {
       doc.text(c.name + ' : ' + c.spend + ' EUR, ' + c.clicks + ' clics, ' + c.conversions + ' conversions', 14, y)
       y += 8
     })
 
-    doc.save('rapport-' + clientName + '.pdf')
+    doc.save('rapport-' + clientName + '.pdf') // declenche le telechargement
   }
 
+  // Ces 3 totaux sont recalcules a chaque affichage, pour les cartes de stats
   const totalSpend = campaigns.reduce((s, c) => s + Number(c.spend), 0)
   const totalClicks = campaigns.reduce((s, c) => s + Number(c.clicks), 0)
   const totalConversions = campaigns.reduce((s, c) => s + Number(c.conversions), 0)
@@ -89,6 +100,7 @@ export default function ClientDetailPage() {
           <button onClick={() => router.push('/dashboard')} className="flex items-center gap-1.5 text-xs text-[#8A90A6] transition hover:text-[#6366F1]">
             <span aria-hidden>&larr;</span> Clients
           </button>
+          {/* Le bouton PDF n'apparait que s'il y a au moins une campagne */}
           {campaigns.length > 0 && (
             <button onClick={exportPDF} className="rounded-md border border-[#232838] bg-[#12151F] px-3 py-1.5 text-xs font-medium text-[#F2F3F7] transition hover:border-[#6366F1]/50 hover:text-[#6366F1]">
               Exporter en PDF
@@ -101,6 +113,7 @@ export default function ClientDetailPage() {
         <p className="font-mono-data text-[11px] uppercase tracking-widest text-[#8A90A6]">Campagnes</p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#F2F3F7]">{clientName || '...'}</h1>
 
+        {/* 3 cartes qui montrent les totaux, une couleur par metrique */}
         {campaigns.length > 0 && (
           <div className="mt-6 grid grid-cols-3 gap-3">
             <div className="rounded-lg border border-[#232838] bg-[#12151F] p-4">
@@ -118,6 +131,7 @@ export default function ClientDetailPage() {
           </div>
         )}
 
+        {/* Formulaire d'ajout de campagne */}
         <form onSubmit={addCampaign} className="mt-6 rounded-xl border border-[#232838] bg-[#12151F] p-5">
           <p className="mb-3 text-xs font-medium text-[#8A90A6]">Ajouter une campagne</p>
           <div className="grid grid-cols-2 gap-2">
@@ -139,6 +153,7 @@ export default function ClientDetailPage() {
           </button>
         </form>
 
+        {/* Le graphique en barres, une couleur par metrique */}
         {campaigns.length > 0 && (
           <div className="mt-6 rounded-xl border border-[#232838] bg-[#12151F] p-5">
             <div className="h-64">
@@ -156,6 +171,7 @@ export default function ClientDetailPage() {
           </div>
         )}
 
+        {/* La liste textuelle des campagnes, en dessous du graphique */}
         {campaigns.length > 0 && (
           <ul className="mt-6 space-y-2">
             {campaigns.map((c) => (
