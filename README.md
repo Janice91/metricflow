@@ -36,3 +36,33 @@ Supabase > SQL Editor > New query > Run :
 ## Photos
 
 Placer les photos dans public/cars/ID.jpg (sinon un dessin est affiche).
+
+## Architecture
+
+```mermaid
+flowchart TB
+  U(["Utilisateur - navigateur"])
+
+  subgraph FRONT["FRONT - Next.js 16, React 19, Tailwind - heberge sur Vercel"]
+    direction TB
+    PAGES["Pages: Accueil, Catalogue, Fiche voiture, Connexion, Reservation, Mes reservations"]
+    COMP["Composants: Navbar, CarCard, CarPhoto, BookingWidget, Footer"]
+    LOGIC["Logique: cars.ts, pricing.ts, auth.ts, bookings.ts, supabase.ts"]
+    PAGES --> COMP
+    PAGES --> LOGIC
+  end
+
+  subgraph BACK["BACK - Supabase"]
+    direction TB
+    A["Auth: inscription et connexion"]
+    DB[("Postgres: table bookings")]
+    R["RLS: chaque utilisateur ne voit que ses reservations"]
+    DB --- R
+  end
+
+  U -->|"visite le site"| PAGES
+  LOGIC -->|"HTTPS: login, signup"| A
+  LOGIC -->|"HTTPS: lire, creer, annuler"| DB
+
+  GH["GitHub: code source"] -->|"vercel --prod"| FRONT
+```
