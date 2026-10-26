@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CARS, getCar } from "@/lib/cars";
 import { eur } from "@/lib/pricing";
-import CarIllustration from "@/components/CarIllustration";
+import CarPhoto from "@/components/CarPhoto";
 import Stars from "@/components/Stars";
 import BookingWidget from "./BookingWidget";
 
@@ -30,18 +30,23 @@ export default async function CarPage({ params }: { params: Promise<{ id: string
       <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_380px]">
         <div>
           <div className="card overflow-hidden">
-            <div className="bg-gradient-to-b from-[#efeadd] to-[#f8f5ee] px-6 pb-4 pt-10">
-              <CarIllustration color={car.color} category={car.category} className="mx-auto w-full max-w-xl" />
+            <div className="overflow-hidden bg-gradient-to-b from-[#efeadd] to-[#f8f5ee]">
+              <CarPhoto car={car} className="aspect-[16/9] w-full" />
             </div>
             <div className="p-7">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-ink px-3 py-1 text-xs font-semibold text-white">{car.category}</span>
-                {car.badge && <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">{car.badge}</span>}
+                {car.badge && <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-ink">{car.badge}</span>}
                 <Stars rating={car.rating} reviews={car.reviews} />
               </div>
               <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted">{car.brand}</p>
               <h1 className="font-display text-4xl font-bold">{car.model}</h1>
               <p className="mt-4 text-lg text-muted">{car.description}</p>
+              {car.photo && (
+                <p className="mt-3 text-xs text-muted">
+                  Photo : <a className="underline" href={`https://commons.wikimedia.org/wiki/File:${car.photo}`} target="_blank" rel="noreferrer">Wikimedia Commons (licence libre)</a>
+                </p>
+              )}
             </div>
           </div>
 
@@ -63,7 +68,7 @@ export default async function CarPage({ params }: { params: Promise<{ id: string
               ))}
             </ul>
             <h2 className="font-display mt-8 text-2xl font-semibold">Inclus dans le prix</h2>
-            <p className="mt-2 text-muted">Kilom&#xE9;trage illimit&#xE9; &#xB7; Assurance de base &#xB7; Assistance 24/7 &#xB7; 2e conducteur sur demande &#xB7; Annulation gratuite 48h avant.</p>
+            <p className="mt-2 text-muted">250 km/jour inclus &#xB7; Assurance premium &#xB7; Assistance 24/7 &#xB7; 2e conducteur sur demande &#xB7; Annulation gratuite 48h avant.</p>
           </div>
         </div>
 

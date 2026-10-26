@@ -4,8 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Driveo \u2014 Location de voiture simple et transparente",
-  description: "Louez la voiture id\u00e9ale en quelques clics : citadines, SUV, \u00e9lectriques, sportives. Prix clairs, agences partout en France.",
+  title: "Driveo \u2014 Location de voitures de luxe",
+  description: "Louez Lamborghini Urus, Corvette C8, Ferrari, Rolls-Royce et plus. Prix clairs, assurance premium incluse, agences partout en France.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

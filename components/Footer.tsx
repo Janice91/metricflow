@@ -10,7 +10,7 @@ export default function Footer() {
             <span className="font-display text-2xl font-bold">Driveo</span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-white/60">
-            La location de voiture simple, transparente et sans surprise. R&#xE9;servez en 2 minutes, roulez en 5.
+            La location de voitures de luxe, simple et sans surprise. R&#xE9;servez en 2 minutes, roulez en exception.
           </p>
         </div>
         <div>
@@ -31,7 +31,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-xs text-white/40">
-        &#xA9; {new Date().getFullYear()} Driveo &#x2014; Projet de d&#xE9;monstration. Aucune r&#xE9;servation r&#xE9;elle.
+        &#xA9; {new Date().getFullYear()} Driveo &#x2014; Projet de d&#xE9;monstration. Photos : Wikimedia Commons (licences libres).
       </div>
     </footer>
   );

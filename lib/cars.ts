@@ -1,4 +1,4 @@
-export type Category = "Citadine" | "Berline" | "SUV" | "Sport" | "\u00c9lectrique" | "Van";
+export type Category = "Berline" | "SUV" | "Sport" | "\u00c9lectrique" | "Van";
 export type Fuel = "Essence" | "Diesel" | "Hybride" | "\u00c9lectrique";
 
 export interface Car {
@@ -17,97 +17,98 @@ export interface Car {
   rating: number;
   reviews: number;
   badge?: string;
+  photo?: string; // nom du fichier sur Wikimedia Commons (credit photo)
   description: string;
   features: string[];
 }
 
-export const CATEGORIES: Category[] = ["Citadine", "Berline", "SUV", "Sport", "\u00c9lectrique", "Van"];
+export const CATEGORIES: Category[] = ["Sport", "SUV", "Berline", "\u00c9lectrique", "Van"];
 export const FUELS: Fuel[] = ["Essence", "Diesel", "Hybride", "\u00c9lectrique"];
 
 export const CARS: Car[] = [
   {
-    id: "peugeot-208", brand: "Peugeot", model: "208", category: "Citadine", year: 2024,
-    pricePerDay: 39, seats: 5, doors: 5, gearbox: "Manuelle", fuel: "Essence", luggage: 2,
-    color: "#E11D48", rating: 4.6, reviews: 214, badge: "Petit prix",
-    description: "La citadine parfaite pour se faufiler en ville et partir en week-end sans se ruiner. Sobre, agile et tr\u00e8s facile \u00e0 garer.",
-    features: ["Climatisation", "Bluetooth", "Cam\u00e9ra de recul", "R\u00e9gulateur de vitesse", "Apple CarPlay"],
+    id: "lamborghini-urus-performante", photo: "Lamborghini_Urus_Performante_1X7A6803.jpg", brand: "Lamborghini", model: "Urus Performante", category: "SUV", year: 2024,
+    pricePerDay: 890, seats: 5, doors: 5, gearbox: "Auto", fuel: "Essence", luggage: 3,
+    color: "#F2C200", rating: 5.0, reviews: 62, badge: "Best-seller",
+    description: "Le SUV le plus rapide de sa cat\u00e9gorie. V8 biturbo de 666 ch, 0 \u00e0 100 km/h en 3,3 s et un son \u00e0 faire retourner tout le quartier.",
+    features: ["V8 biturbo 666 ch", "Mode Corsa", "\u00c9chappement sport", "Cuir Alcantara", "Freins carbone-c\u00e9ramique"],
   },
   {
-    id: "renault-clio", brand: "Renault", model: "Clio", category: "Citadine", year: 2024,
-    pricePerDay: 37, seats: 5, doors: 5, gearbox: "Manuelle", fuel: "Diesel", luggage: 2,
-    color: "#F59E0B", rating: 4.5, reviews: 301,
-    description: "Un classique fiable et \u00e9conomique. Id\u00e9ale pour les trajets du quotidien comme pour les petites escapades.",
-    features: ["Climatisation", "Bluetooth", "GPS", "Prise USB", "Aide au stationnement"],
+    id: "chevrolet-corvette-c8", photo: "2021_Chevrolet_Corvette_C8.jpg", brand: "Chevrolet", model: "Corvette C8", category: "Sport", year: 2024,
+    pricePerDay: 590, seats: 2, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 1,
+    color: "#1D4ED8", rating: 4.9, reviews: 74, badge: "Coup de c\u0153ur",
+    description: "Le V8 am\u00e9ricain passe en position centrale. Look de supercar, 0 \u00e0 100 km/h autour de 3 s et un toit r\u00e9tractable pour entendre le moteur.",
+    features: ["V8 6,2 L central", "Toit targa amovible", "\u00c9chappement sport", "Palettes au volant", "Mode Track"],
   },
   {
-    id: "fiat-500e", brand: "Fiat", model: "500e", category: "\u00c9lectrique", year: 2025,
-    pricePerDay: 49, seats: 4, doors: 3, gearbox: "Auto", fuel: "\u00c9lectrique", luggage: 1,
-    color: "#34D399", rating: 4.7, reviews: 96, badge: "\u00c9co",
-    description: "Petite, styl\u00e9e et 100 % \u00e9lectrique. Autonomie parfaite pour la ville, z\u00e9ro \u00e9mission et un look irr\u00e9sistible.",
-    features: ["Climatisation auto", "Bluetooth", "\u00c9cran tactile", "Recharge rapide", "Apple CarPlay"],
+    id: "ferrari-296-gtb", photo: "Ferrari_296_GTB_Auto_Zuerich_2024_DSC_6405.jpg", brand: "Ferrari", model: "296 GTB", category: "Sport", year: 2024,
+    pricePerDay: 1290, seats: 2, doors: 2, gearbox: "Auto", fuel: "Hybride", luggage: 1,
+    color: "#DC2626", rating: 5.0, reviews: 38, badge: "Prestige",
+    description: "V6 hybride rechargeable de 830 ch. La Ferrari qui allie sensations pures et technologie, pour un week-end inoubliable.",
+    features: ["V6 hybride 830 ch", "Mode Qualifying", "Cuir", "\u00c9cran passager", "Suspensions actives"],
   },
   {
-    id: "vw-golf", brand: "Volkswagen", model: "Golf", category: "Berline", year: 2024,
-    pricePerDay: 55, seats: 5, doors: 5, gearbox: "Auto", fuel: "Essence", luggage: 3,
-    color: "#3B82F6", rating: 4.7, reviews: 187,
-    description: "La compacte polyvalente par excellence : confortable sur autoroute, agr\u00e9able en ville, coffre g\u00e9n\u00e9reux.",
-    features: ["Bo\u00eete automatique", "Climatisation auto", "GPS", "Bluetooth", "R\u00e9gulateur adaptatif"],
+    id: "mclaren-720s", photo: "2018_McLaren_720S_V8_S-A_4.0.jpg", brand: "McLaren", model: "720S", category: "Sport", year: 2023,
+    pricePerDay: 1190, seats: 2, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 1,
+    color: "#F97316", rating: 4.9, reviews: 29, badge: "Prestige",
+    description: "V8 4,0 L biturbo de 720 ch et portes papillon. Une acc\u00e9l\u00e9ration brutale et une tenue de route d'un autre monde.",
+    features: ["V8 720 ch", "Portes papillon", "Ch\u00e2ssis carbone", "Mode Track", "Syst\u00e8me audio Bowers & Wilkins"],
   },
   {
-    id: "bmw-serie-3", brand: "BMW", model: "S\u00e9rie 3", category: "Berline", year: 2025,
-    pricePerDay: 89, seats: 5, doors: 4, gearbox: "Auto", fuel: "Diesel", luggage: 3,
-    color: "#1E293B", rating: 4.9, reviews: 142, badge: "Premium",
-    description: "Le plaisir de conduite \u00e0 l'allemande. Une berline \u00e9l\u00e9gante et dynamique pour les voyages d'affaires ou les grandes occasions.",
-    features: ["Cuir", "Toit ouvrant", "GPS Pro", "Si\u00e8ges chauffants", "Audio Harman Kardon"],
+    id: "porsche-911-turbo-s", photo: "Porsche_992_Turbo_S_1X7A0411.jpg", brand: "Porsche", model: "911 Turbo S", category: "Sport", year: 2024,
+    pricePerDay: 890, seats: 4, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 2,
+    color: "#94A3B8", rating: 4.9, reviews: 81,
+    description: "650 ch, transmission int\u00e9grale et 0 \u00e0 100 km/h en 2,7 s. La supercar du quotidien, utilisable tous les jours.",
+    features: ["650 ch", "Launch Control", "Int\u00e9grale", "Sport Chrono", "Si\u00e8ges baquets"],
   },
   {
-    id: "mercedes-classe-c", brand: "Mercedes", model: "Classe C", category: "Berline", year: 2025,
-    pricePerDay: 95, seats: 5, doors: 4, gearbox: "Auto", fuel: "Hybride", luggage: 3,
-    color: "#94A3B8", rating: 4.9, reviews: 128, badge: "Premium",
-    description: "Le luxe discret. Habitacle raffin\u00e9, technologie de pointe et motorisation hybride pour rouler avec \u00e9l\u00e9gance.",
-    features: ["Cuir", "\u00c9cran MBUX", "\u00c9clairage d'ambiance", "Cam\u00e9ra 360\u00b0", "Si\u00e8ges massants"],
+    id: "mercedes-amg-g63", photo: "Mercedes-AMG_G_63_Genf_2018.jpg", brand: "Mercedes-AMG", model: "G 63", category: "SUV", year: 2025,
+    pricePerDay: 690, seats: 5, doors: 5, gearbox: "Auto", fuel: "Essence", luggage: 4,
+    color: "#111827", rating: 4.9, reviews: 118, badge: "Iconique",
+    description: "L'ic\u00f4ne tout-terrain version AMG : V8 biturbo de 585 ch, pr\u00e9sence incroyable et confort de grande routi\u00e8re.",
+    features: ["V8 biturbo 585 ch", "Cuir Nappa", "Mode Dynamic", "Si\u00e8ges massants", "Audio Burmester"],
   },
   {
-    id: "dacia-duster", brand: "Dacia", model: "Duster", category: "SUV", year: 2024,
-    pricePerDay: 52, seats: 5, doors: 5, gearbox: "Manuelle", fuel: "Diesel", luggage: 4,
-    color: "#65A30D", rating: 4.5, reviews: 256, badge: "Best-seller",
-    description: "Le SUV robuste et abordable. Garde au sol g\u00e9n\u00e9reuse, grand coffre : parfait pour la famille et les routes moins sages.",
-    features: ["4x4 disponible", "Climatisation", "Barres de toit", "Bluetooth", "Cam\u00e9ra de recul"],
+    id: "rolls-royce-cullinan", photo: "2024_Rolls-Royce_Cullinan_%2885818%29.jpg", brand: "Rolls-Royce", model: "Cullinan", category: "SUV", year: 2024,
+    pricePerDay: 1490, seats: 5, doors: 5, gearbox: "Auto", fuel: "Essence", luggage: 4,
+    color: "#E5E7EB", rating: 5.0, reviews: 26, badge: "Ultra luxe",
+    description: "Le SUV de l'ultra luxe. V12 d'un silence absolu, suspensions magiques et finitions faites main.",
+    features: ["V12 6,75 L", "Plafond \u00e9toil\u00e9", "Suspension Magic Carpet", "Bar \u00e0 champagne", "Chauffeur en option"],
   },
   {
-    id: "toyota-rav4", brand: "Toyota", model: "RAV4", category: "SUV", year: 2025,
-    pricePerDay: 79, seats: 5, doors: 5, gearbox: "Auto", fuel: "Hybride", luggage: 4,
-    color: "#0EA5E9", rating: 4.8, reviews: 173,
-    description: "Hybride, spacieux et ultra-fiable. Consommation ma\u00eetris\u00e9e et confort de route pour toute la famille.",
-    features: ["Bo\u00eete automatique", "GPS", "Aide \u00e0 la conduite", "Hayon \u00e9lectrique", "Apple CarPlay"],
+    id: "bentley-continental-gt", photo: "Bentley_Continental_GT_%284th_gen.%29_IMG_0556.jpg", brand: "Bentley", model: "Continental GT", category: "Berline", year: 2024,
+    pricePerDay: 990, seats: 4, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 2,
+    color: "#166534", rating: 4.9, reviews: 44,
+    description: "Le grand tourisme britannique par excellence. V8 biturbo de 550 ch, cuir et bois pr\u00e9cieux pour de longs trajets en grand style.",
+    features: ["V8 biturbo 550 ch", "Cuir et bois", "Rotating Display", "Audio Naim", "Si\u00e8ges massants"],
   },
   {
-    id: "tesla-model-3", brand: "Tesla", model: "Model 3", category: "\u00c9lectrique", year: 2025,
-    pricePerDay: 99, seats: 5, doors: 4, gearbox: "Auto", fuel: "\u00c9lectrique", luggage: 3,
-    color: "#F8FAFC", rating: 4.8, reviews: 164, badge: "Tendance",
-    description: "La r\u00e9f\u00e9rence de l'\u00e9lectrique. Acc\u00e9l\u00e9rations fulgurantes, grande autonomie et technologie embarqu\u00e9e bluffante.",
-    features: ["Autopilot", "Toit panoramique", "Supercharge", "\u00c9cran 15\"", "Audio premium"],
+    id: "mercedes-maybach-classe-s", photo: "Mercedes-Maybach_Z223_680_1X7A5831.jpg", brand: "Mercedes-Maybach", model: "Classe S", category: "Berline", year: 2025,
+    pricePerDay: 1090, seats: 4, doors: 4, gearbox: "Auto", fuel: "Essence", luggage: 3,
+    color: "#0B0B0D", rating: 5.0, reviews: 57, badge: "Chauffeur dispo",
+    description: "La limousine d'exception. V12 de 612 ch, si\u00e8ges salon et silence royal, avec chauffeur priv\u00e9 en option.",
+    features: ["V12 612 ch", "Si\u00e8ges relax", "R\u00e9frig\u00e9rateur", "\u00c9crans arri\u00e8re", "Chauffeur en option"],
   },
   {
-    id: "porsche-911", brand: "Porsche", model: "911 Carrera", category: "Sport", year: 2024,
-    pricePerDay: 349, seats: 4, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 1,
-    color: "#FACC15", rating: 5.0, reviews: 48, badge: "Prestige",
-    description: "Le mythe. Une exp\u00e9rience de conduite inoubliable pour un week-end d'exception ou une occasion sp\u00e9ciale.",
-    features: ["Mode Sport+", "Cuir", "\u00c9chappement sport", "Chrono Pack", "Si\u00e8ges baquets"],
+    id: "porsche-taycan-turbo-s", photo: "Porsche_Taycan_Turbo_S_IMG_3471.jpg", brand: "Porsche", model: "Taycan Turbo S", category: "\u00c9lectrique", year: 2025,
+    pricePerDay: 690, seats: 4, doors: 4, gearbox: "Auto", fuel: "\u00c9lectrique", luggage: 2,
+    color: "#3B82F6", rating: 4.9, reviews: 52, badge: "\u00c9co-luxe",
+    description: "761 ch en 100 % \u00e9lectrique et 0 \u00e0 100 km/h en 2,4 s. Une berline de sport silencieuse et redoutable.",
+    features: ["761 ch", "Launch Control", "Recharge ultra-rapide", "Suspension pneumatique", "Audio Burmester"],
   },
   {
-    id: "audi-r8", brand: "Audi", model: "R8", category: "Sport", year: 2024,
-    pricePerDay: 429, seats: 2, doors: 2, gearbox: "Auto", fuel: "Essence", luggage: 1,
-    color: "#DC2626", rating: 5.0, reviews: 31, badge: "Prestige",
-    description: "Un V10 en position centrale et un son d'enfer. Pour ceux qui veulent marquer les esprits.",
-    features: ["V10 5.2L", "Quattro", "Cuir Nappa", "Virtual Cockpit", "Mode Performance"],
+    id: "tesla-model-s-plaid", photo: "Tesla_Model_S_Plaid_Autofr%C3%BChling_Ulm_IMG_9321.jpg", brand: "Tesla", model: "Model S Plaid", category: "\u00c9lectrique", year: 2025,
+    pricePerDay: 590, seats: 5, doors: 4, gearbox: "Auto", fuel: "\u00c9lectrique", luggage: 3,
+    color: "#F8FAFC", rating: 4.8, reviews: 97, badge: "Tendance",
+    description: "1 020 ch et 0 \u00e0 100 km/h en 2,1 s. La berline \u00e9lectrique la plus rapide du monde, avec une autonomie XXL.",
+    features: ["1 020 ch", "Autopilot", "Toit en verre", "Supercharge", "\u00c9cran 17\""],
   },
   {
-    id: "vw-multivan", brand: "Volkswagen", model: "Multivan", category: "Van", year: 2025,
-    pricePerDay: 109, seats: 7, doors: 5, gearbox: "Auto", fuel: "Hybride", luggage: 6,
-    color: "#6366F1", rating: 4.8, reviews: 89,
-    description: "Jusqu'\u00e0 7 passagers dans un confort de salon. Id\u00e9al pour les vacances en groupe ou les d\u00e9m\u00e9nagements.",
-    features: ["7 places", "Portes coulissantes", "Table modulable", "Climatisation 3 zones", "GPS"],
+    id: "mercedes-classe-v-vip", photo: "2023_Mercedes-Benz_V-Class_300d_%28W447%29_IMG_9812.jpg", brand: "Mercedes", model: "Classe V VIP", category: "Van", year: 2025,
+    pricePerDay: 390, seats: 6, doors: 5, gearbox: "Auto", fuel: "Diesel", luggage: 5,
+    color: "#475569", rating: 4.8, reviews: 63,
+    description: "Le van de luxe pour 6 personnes. Si\u00e8ges capitaine en cuir, table et ambiance salon, id\u00e9al pour mariages, \u00e9v\u00e9nements et voyages en groupe.",
+    features: ["6 si\u00e8ges capitaine", "Table centrale", "Mini-bar", "Vitres teint\u00e9es", "Chauffeur en option"],
   },
 ];
 

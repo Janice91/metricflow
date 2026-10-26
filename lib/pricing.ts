@@ -6,11 +6,11 @@ export interface Option {
 }
 
 export const OPTIONS: Option[] = [
-  { id: "insurance", label: "Assurance tous risques", desc: "Franchise r\u00e9duite \u00e0 0 \u20ac", price: 12 },
-  { id: "driver", label: "Conducteur additionnel", desc: "Partagez le volant", price: 7 },
-  { id: "gps", label: "GPS embarqu\u00e9", desc: "Cartes \u00e0 jour, Europe", price: 5 },
-  { id: "seat", label: "Si\u00e8ge b\u00e9b\u00e9 / rehausseur", desc: "Homologu\u00e9, install\u00e9", price: 6 },
-  { id: "wifi", label: "Wi-Fi 4G illimit\u00e9", desc: "Jusqu'\u00e0 5 appareils", price: 8 },
+  { id: "insurance", label: "Assurance z\u00e9ro franchise", desc: "Franchise r\u00e9duite \u00e0 0 \u20ac", price: 59 },
+  { id: "driver", label: "Conducteur additionnel", desc: "Partagez le volant", price: 29 },
+  { id: "gps", label: "GPS embarqu\u00e9", desc: "Cartes \u00e0 jour, Europe", price: 9 },
+  { id: "seat", label: "Si\u00e8ge b\u00e9b\u00e9 / rehausseur", desc: "Homologu\u00e9, install\u00e9", price: 12 },
+  { id: "wifi", label: "Wi-Fi 4G illimit\u00e9", desc: "Jusqu'\u00e0 5 appareils", price: 15 },
 ];
 
 export function daysBetween(start: string, end: string): number {

@@ -1,18 +1,18 @@
 import Link from "next/link";
 import type { Car } from "@/lib/cars";
 import { eur } from "@/lib/pricing";
-import CarIllustration from "./CarIllustration";
+import CarPhoto from "./CarPhoto";
 import Stars from "./Stars";
 
 export default function CarCard({ car, qs = "" }: { car: Car; qs?: string }) {
   return (
     <Link href={`/voitures/${car.id}${qs}`} className="card lift group flex flex-col overflow-hidden">
-      <div className="relative bg-gradient-to-b from-[#efeadd] to-[#f8f5ee] px-4 pt-6">
+      <div className="relative overflow-hidden bg-gradient-to-b from-[#efeadd] to-[#f8f5ee]">
         {car.badge && (
           <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1 text-xs font-semibold text-white">{car.badge}</span>
         )}
         <span className="absolute right-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-muted">{car.category}</span>
-        <CarIllustration color={car.color} category={car.category} className="mx-auto h-36 w-full transition-transform duration-300 group-hover:scale-105" />
+        <CarPhoto car={car} className="aspect-[16/10] w-full transition-transform duration-300 group-hover:scale-105" />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-start justify-between gap-2">

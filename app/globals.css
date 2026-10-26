@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f6f3ec;
+  --paper: #f7f4ec;
   --card: #ffffff;
-  --ink: #0b1220;
-  --muted: #5b6475;
+  --ink: #0a0a0c;
+  --muted: #5f5f68;
   --line: #e4dfd3;
-  --accent: #ff5a1f;
-  --accent-dark: #e04810;
+  --accent: #b98a2e;
+  --accent-dark: #9a7222;
 }
 
 @theme inline {
@@ -38,10 +38,10 @@ body {
   cursor: pointer; border: 0;
 }
 .btn:active { transform: scale(.98); }
-.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 20px -6px rgba(255,90,31,.6); }
-.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary { background: var(--accent); color: var(--ink); box-shadow: 0 6px 20px -6px rgba(185,138,46,.6); }
+.btn-primary:hover { background: var(--accent-dark); color: #fff; }
 .btn-dark { background: var(--ink); color: #fff; }
-.btn-dark:hover { background: #1b2740; }
+.btn-dark:hover { background: #26262c; }
 .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
 .btn-ghost:hover { background: var(--ink); color: #fff; }
 
@@ -49,17 +49,17 @@ body {
   width: 100%; background: #fff; border: 1.5px solid var(--line); border-radius: .85rem;
   padding: .7rem .9rem; font-size: .95rem; outline: none; transition: border .15s, box-shadow .15s;
 }
-.field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,90,31,.15); }
+.field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(185,138,46,.2); }
 .label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
 
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 1.25rem; }
 .lift { transition: transform .2s ease, box-shadow .2s ease; }
-.lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(11,18,32,.25); }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(10,10,12,.25); }
 
 .hero-bg {
   background:
-    radial-gradient(900px 400px at 85% -10%, rgba(255,90,31,.18), transparent 60%),
-    radial-gradient(700px 400px at -10% 110%, rgba(11,18,32,.08), transparent 60%),
+    radial-gradient(900px 400px at 85% -10%, rgba(185,138,46,.22), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, rgba(10,10,12,.08), transparent 60%),
     var(--paper);
 }
 @keyframes drive { from { transform: translateX(-30px); opacity: 0 } to { transform: translateX(0); opacity: 1 } }

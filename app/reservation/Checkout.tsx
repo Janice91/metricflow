@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AGENCIES, getCar } from "@/lib/cars";
 import { OPTIONS, daysBetween, eur, fmtDate, quote } from "@/lib/pricing";
 import { newRef, saveBooking, type Booking } from "@/lib/bookings";
-import CarIllustration from "@/components/CarIllustration";
+import CarPhoto from "@/components/CarPhoto";
+import { useUser } from "@/lib/auth";
 
 export default function Checkout() {
   const sp = useSearchParams();
@@ -22,6 +23,17 @@ export default function Checkout() {
   const [dropoff, setDropoff] = useState(agence.id);
   const [accept, setAccept] = useState(false);
   const [done, setDone] = useState<Booking | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const { user, loading } = useUser();
+
+  // Pre-remplit le formulaire avec les infos du compte
+  useEffect(() => {
+    if (user) {
+      setName((n) => n || ((user.user_metadata?.full_name as string | undefined) ?? ""));
+      setEmail((m) => m || (user.email ?? ""));
+    }
+  }, [user]);
 
   if (!car || days < 1) {
     return (
@@ -34,16 +46,36 @@ export default function Checkout() {
     );
   }
 
+  if (loading) return <p className="p-10 text-center text-muted">Chargement...</p>;
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-lg px-5 py-24 text-center">
+        <p className="text-5xl">&#x1F511;</p>
+        <h1 className="font-display mt-4 text-3xl font-bold">Connecte-toi pour r&eacute;server</h1>
+        <p className="mt-2 text-muted">Ton compte te permet de retrouver et g&eacute;rer toutes tes locations.</p>
+        <Link href={`/login?next=${encodeURIComponent("/reservation?" + sp.toString())}`} className="btn btn-primary mt-6">Se connecter / Cr&eacute;er un compte</Link>
+      </div>
+    );
+  }
+
   const q = quote(car.pricePerDay, days, opts);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!car) return;
+    setSaving(true);
+    setError("");
     const b: Booking = {
       ref: newRef(), carId: car.id, pickup: agence.id, dropoff, start: du, end: au, options: opts,
       total: q.total, name, email, phone, createdAt: new Date().toISOString(),
     };
-    saveBooking(b);
+    const err = await saveBooking(b);
+    setSaving(false);
+    if (err) {
+      setError(err);
+      return;
+    }
     setDone(b);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -99,16 +131,17 @@ export default function Checkout() {
             </select>
           </div>
           <label className="flex items-start gap-3 text-sm">
-            <input type="checkbox" required checked={accept} onChange={(e) => setAccept(e.target.checked)} className="mt-1 h-4 w-4 accent-[#ff5a1f]" />
-            <span>J&apos;ai plus de 21 ans, 2 ans de permis, et j&apos;accepte les conditions g&#xE9;n&#xE9;rales de location.</span>
+            <input type="checkbox" required checked={accept} onChange={(e) => setAccept(e.target.checked)} className="mt-1 h-4 w-4 accent-[#b98a2e]" />
+            <span>J&apos;ai plus de 25 ans, 3 ans de permis, et j&apos;accepte les conditions g&#xE9;n&#xE9;rales de location.</span>
           </label>
-          <button type="submit" className="btn btn-primary w-full">Confirmer la r&#xE9;servation &#xB7; {eur(q.total)}</button>
+          {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+          <button type="submit" disabled={saving} className="btn btn-primary w-full disabled:opacity-60">Confirmer la r&#xE9;servation &#xB7; {eur(q.total)}</button>
           <p className="text-center text-xs text-muted">D&#xE9;mo : aucun paiement n&apos;est demand&#xE9;.</p>
         </form>
 
         <aside className="card h-fit p-6 lg:sticky lg:top-24">
-          <div className="rounded-xl bg-gradient-to-b from-[#efeadd] to-[#f8f5ee] px-3 pt-4">
-            <CarIllustration color={car.color} category={car.category} className="w-full" />
+          <div className="overflow-hidden rounded-xl bg-gradient-to-b from-[#efeadd] to-[#f8f5ee]">
+            <CarPhoto car={car} className="aspect-[16/10] w-full" />
           </div>
           <h3 className="font-display mt-4 text-2xl font-semibold">{car.brand} {car.model}</h3>
           <p className="text-sm text-muted">{fmtDate(du)} &#x2192; {fmtDate(au)} &#xB7; {days} jour{days > 1 ? "s" : ""}</p>

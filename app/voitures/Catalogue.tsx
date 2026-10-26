@@ -13,7 +13,7 @@ export default function Catalogue() {
   const [fuel, setFuel] = useState<Fuel | "">("");
   const [gearbox, setGearbox] = useState("");
   const [seats, setSeats] = useState(0);
-  const [max, setMax] = useState(450);
+  const [max, setMax] = useState(1600);
   const [sort, setSort] = useState("price-asc");
 
   const agence = sp.get("agence");
@@ -38,7 +38,7 @@ export default function Catalogue() {
     return [...l].sort(s);
   }, [cat, fuel, gearbox, seats, max, sort]);
 
-  function reset() { setCat(""); setFuel(""); setGearbox(""); setSeats(0); setMax(450); }
+  function reset() { setCat(""); setFuel(""); setGearbox(""); setSeats(0); setMax(1600); }
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-10">
@@ -84,12 +84,12 @@ export default function Catalogue() {
           <div>
             <label className="label" htmlFor="seats">Places minimum</label>
             <select id="seats" className="field" value={seats} onChange={(e) => setSeats(Number(e.target.value))}>
-              <option value={0}>Peu importe</option><option value={4}>4+</option><option value={5}>5+</option><option value={7}>7</option>
+              <option value={0}>Peu importe</option><option value={4}>4+</option><option value={5}>5+</option><option value={6}>6</option>
             </select>
           </div>
           <div>
             <label className="label" htmlFor="max">Prix max : {eur(max)} / jour</label>
-            <input id="max" type="range" min={30} max={450} step={5} value={max} onChange={(e) => setMax(Number(e.target.value))} className="w-full accent-[#ff5a1f]" />
+            <input id="max" type="range" min={300} max={1600} step={50} value={max} onChange={(e) => setMax(Number(e.target.value))} className="w-full accent-[#b98a2e]" />
           </div>
         </aside>
 

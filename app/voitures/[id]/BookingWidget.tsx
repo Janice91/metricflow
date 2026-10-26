@@ -48,7 +48,7 @@ function Widget({ carId, pricePerDay }: { carId: string; pricePerDay: number }) 
         <div className="space-y-2">
           {OPTIONS.map((o) => (
             <label key={o.id} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition ${opts.includes(o.id) ? "border-accent bg-accent/5" : "border-line hover:border-ink/40"}`}>
-              <input type="checkbox" checked={opts.includes(o.id)} onChange={() => toggle(o.id)} className="h-4 w-4 accent-[#ff5a1f]" />
+              <input type="checkbox" checked={opts.includes(o.id)} onChange={() => toggle(o.id)} className="h-4 w-4 accent-[#b98a2e]" />
               <span className="flex-1 text-sm"><b className="block">{o.label}</b><span className="text-muted">{o.desc}</span></span>
               <span className="text-sm font-semibold">+{eur(o.price)}/j</span>
             </label>

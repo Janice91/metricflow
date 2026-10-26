@@ -4,16 +4,32 @@ import { useEffect, useState } from "react";
 import { AGENCIES, getCar } from "@/lib/cars";
 import { cancelBooking, loadBookings, type Booking } from "@/lib/bookings";
 import { eur, fmtDate, todayISO } from "@/lib/pricing";
-import CarIllustration from "@/components/CarIllustration";
+import CarPhoto from "@/components/CarPhoto";
+import { useUser } from "@/lib/auth";
 
 export default function MesReservations() {
   const [list, setList] = useState<Booking[] | null>(null);
-  useEffect(() => { setList(loadBookings()); }, []);
+  const { user, loading } = useUser();
+  useEffect(() => {
+    if (user) loadBookings().then(setList);
+  }, [user]);
 
-  function cancel(ref: string) {
+  async function cancel(ref: string) {
     if (!window.confirm("Annuler cette r\u00e9servation ?")) return;
-    cancelBooking(ref);
-    setList(loadBookings());
+    await cancelBooking(ref);
+    setList(await loadBookings());
+  }
+
+  if (loading) return <p className="p-10 text-center text-muted">Chargement&#x2026;</p>;
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-lg px-5 py-24 text-center">
+        <p className="text-5xl">&#x1F511;</p>
+        <h1 className="font-display mt-4 text-3xl font-bold">Connecte-toi pour voir tes r&#xE9;servations</h1>
+        <Link href="/login?next=/reservations" className="btn btn-primary mt-6">Se connecter / Cr&#xE9;er un compte</Link>
+      </div>
+    );
   }
 
   return (
@@ -35,8 +51,8 @@ export default function MesReservations() {
             const upcoming = b.start >= todayISO();
             return (
               <article key={b.ref} className="card grid overflow-hidden sm:grid-cols-[220px_1fr]">
-                <div className="bg-gradient-to-b from-[#efeadd] to-[#f8f5ee] p-4">
-                  <CarIllustration color={car.color} category={car.category} className="w-full" />
+                <div className="overflow-hidden bg-gradient-to-b from-[#efeadd] to-[#f8f5ee]">
+                  <CarPhoto car={car} className="h-full min-h-40 w-full" />
                 </div>
                 <div className="p-5">
                   <div className="flex flex-wrap items-start justify-between gap-2">
