@@ -66,3 +66,37 @@ flowchart TB
 
   GH["GitHub: code source"] -->|"vercel --prod"| FRONT
 ```
+
+## Database Diagram
+
+La base de données est hébergée sur Supabase (PostgreSQL). Les voitures et les agences sont définies dans le code (`lib/cars.ts`). Seules les réservations sont stockées en base.
+
+```mermaid
+erDiagram
+    AUTH_USERS ||--o{ BOOKINGS : "possède"
+
+    AUTH_USERS {
+        uuid id PK
+        text email
+        jsonb raw_user_meta_data
+    }
+
+    BOOKINGS {
+        uuid id PK
+        uuid user_id FK
+        text ref
+        text car_id
+        text pickup
+        text dropoff
+        date start_date
+        date end_date
+        text_array options
+        numeric total
+        text name
+        text email
+        text phone
+        timestamptz created_at
+    }
+```
+
+**Sécurité (RLS)** : la règle `auth.uid() = user_id` s'applique à toutes les opérations. Chaque utilisateur ne voit et ne modifie que ses propres réservations.
