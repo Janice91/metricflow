@@ -3,6 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { CARS } from "@/lib/cars";
+import CarPhoto from "@/components/CarPhoto";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,7 +41,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col px-5 py-16">
+    <div className="mx-auto grid max-w-5xl items-center gap-10 px-5 py-12 md:grid-cols-2 md:py-16">
+      <div className="relative hidden overflow-hidden rounded-[2rem] bg-ink shadow-2xl md:block">
+        <CarPhoto car={CARS[0]} className="h-[34rem] w-full" />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-7 text-white">
+          <p className="font-display text-3xl font-bold">Lamborghini Urus Performante</p>
+          <p className="mt-1 text-sm text-white/75">890 &#x20AC; / jour &#xB7; V8 biturbo 666 ch</p>
+        </div>
+      </div>
+      <div className="mx-auto flex w-full max-w-md flex-col">
       <div className="text-center">
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-accent text-2xl font-bold text-ink">D</span>
         <h1 className="font-display mt-5 text-4xl font-bold">{mode === "login" ? "Bon retour" : "Cr\u00e9er un compte"}</h1>
@@ -72,6 +82,7 @@ export default function LoginPage() {
         </button>
       </form>
       <p className="mt-6 text-center text-sm text-muted"><Link href="/voitures" className="hover:text-ink">&larr; Voir les voitures</Link></p>
+    </div>
     </div>
   );
 }
