@@ -1,28 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "MetricFlow",
-  description: "Suivi des performances publicitaires pour agences",
+  title: "Driveo \u2014 Location de voiture simple et transparente",
+  description: "Louez la voiture id\u00e9ale en quelques clics : citadines, SUV, \u00e9lectriques, sportives. Prix clairs, agences partout en France.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="bg-[#F7F7F5] text-[#14171F] antialiased">{children}</body>
+    <html lang="fr">
+      <body className="flex min-h-screen flex-col antialiased">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['web-80-145-68.cod-eu-west-3.hbtn.io'],
+  allowedDevOrigins: ["*.holberton.online", "*.hbtn.io", "*.holbertonschool.com"],
+  turbopack: {
+    rules: {
+      "*.css": {
+        loaders: ["@tailwindcss/turbopack"],
+        as: "*.css",
+      },
+    },
+  },
 };
 
 export default nextConfig;
