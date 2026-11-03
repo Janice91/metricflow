@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { AGENCIES, getCar } from "@/lib/cars";
+import { useCatalog } from "@/lib/catalog";
 import { OPTIONS, daysBetween, eur, fmtDate, quote } from "@/lib/pricing";
-import { newRef, saveBooking, type Booking } from "@/lib/bookings";
+import { newRef, type Booking } from "@/lib/bookings";
 import CarPhoto from "@/components/CarPhoto";
 import { useUser } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 export default function Checkout() {
   const sp = useSearchParams();
+  const { agencies: AGENCIES, getCar } = useCatalog();
   const car = getCar(sp.get("car") ?? "");
   const agence = AGENCIES.find((a) => a.id === sp.get("agence")) ?? AGENCIES[0];
   const du = sp.get("du") ?? "";
@@ -52,9 +54,12 @@ export default function Checkout() {
     return (
       <div className="mx-auto max-w-lg px-5 py-24 text-center">
         <p className="text-5xl">&#x1F511;</p>
-        <h1 className="font-display mt-4 text-3xl font-bold">Connecte-toi pour r&eacute;server</h1>
+        <h1 className="font-display mt-4 text-3xl font-bold">Un compte est n&eacute;cessaire pour r&eacute;server</h1>
         <p className="mt-2 text-muted">Ton compte te permet de retrouver et g&eacute;rer toutes tes locations.</p>
-        <Link href={`/login?next=${encodeURIComponent("/reservation?" + sp.toString())}`} className="btn btn-primary mt-6">Se connecter / Cr&eacute;er un compte</Link>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link href={`/login?mode=signup&next=${encodeURIComponent("/reservation?" + sp.toString())}`} className="btn btn-primary">Cr&eacute;er un compte</Link>
+          <Link href={`/login?next=${encodeURIComponent("/reservation?" + sp.toString())}`} className="btn btn-ghost">J&apos;ai d&eacute;j&agrave; un compte</Link>
+        </div>
       </div>
     );
   }
@@ -70,14 +75,21 @@ export default function Checkout() {
       ref: newRef(), carId: car.id, pickup: agence.id, dropoff, start: du, end: au, options: opts,
       total: q.total, name, email, phone, createdAt: new Date().toISOString(),
     };
-    const err = await saveBooking(b);
-    setSaving(false);
-    if (err) {
-      setError(err);
-      return;
+    try {
+      localStorage.setItem("driveo_pending", JSON.stringify(b));
+      const { data: sess } = await supabase.auth.getSession();
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + (sess.session?.access_token ?? "") },
+        body: JSON.stringify({ carId: car.id, du, au, opts, ref: b.ref, email, back: sp.toString() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Paiement indisponible.");
+      window.location.href = data.url;
+    } catch (e) {
+      setSaving(false);
+      setError(e instanceof Error ? e.message : "Erreur de paiement.");
     }
-    setDone(b);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   if (done) {
@@ -135,8 +147,8 @@ export default function Checkout() {
             <span>J&apos;ai plus de 25 ans, 3 ans de permis, et j&apos;accepte les conditions g&#xE9;n&#xE9;rales de location.</span>
           </label>
           {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-          <button type="submit" disabled={saving} className="btn btn-primary w-full disabled:opacity-60">Confirmer la r&#xE9;servation &#xB7; {eur(q.total)}</button>
-          <p className="text-center text-xs text-muted">D&#xE9;mo : aucun paiement n&apos;est demand&#xE9;.</p>
+          <button type="submit" disabled={saving} className="btn btn-primary w-full disabled:opacity-60">Payer {eur(q.total)} par carte</button>
+          <p className="text-center text-xs text-muted">Paiement s&#xE9;curis&#xE9; par Stripe (mode test) : carte 4242 4242 4242 4242, date future, CVC au choix.</p>
         </form>
 
         <aside className="card h-fit p-6 lg:sticky lg:top-24">

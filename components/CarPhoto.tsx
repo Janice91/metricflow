@@ -22,7 +22,7 @@ export default function CarPhoto({ car, className = "" }: { car: Car; className?
     // eslint-disable-next-line @next/next/no-img-element
     <img
       ref={ref}
-      src={`/cars/${car.id}.jpg`}
+      src={car.imageUrl || `/cars/${car.id}.jpg`}
       alt={`${car.brand} ${car.model}`}
       loading="lazy"
       onError={() => setFailed(true)}

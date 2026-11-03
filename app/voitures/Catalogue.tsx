@@ -1,13 +1,15 @@
 "use client";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CARS, CATEGORIES, FUELS, AGENCIES, type Category, type Fuel } from "@/lib/cars";
+import { CATEGORIES, FUELS, type Category, type Fuel } from "@/lib/cars";
+import { useCatalog } from "@/lib/catalog";
 import { daysBetween, eur } from "@/lib/pricing";
 import CarCard from "@/components/CarCard";
 import SearchForm from "@/components/SearchForm";
 
 export default function Catalogue() {
   const sp = useSearchParams();
+  const { cars: CARS, agencies: AGENCIES } = useCatalog();
   const initialCat = sp.get("cat") as Category | null;
   const [cat, setCat] = useState<Category | "">(initialCat && CATEGORIES.includes(initialCat) ? initialCat : "");
   const [fuel, setFuel] = useState<Fuel | "">("");
@@ -36,7 +38,7 @@ export default function Catalogue() {
       "price-desc": (a: typeof CARS[0], b: typeof CARS[0]) => b.pricePerDay - a.pricePerDay,
       rating: (a: typeof CARS[0], b: typeof CARS[0]) => b.rating - a.rating }[sort]!;
     return [...l].sort(s);
-  }, [cat, fuel, gearbox, seats, max, sort]);
+  }, [CARS, cat, fuel, gearbox, seats, max, sort]);
 
   function reset() { setCat(""); setFuel(""); setGearbox(""); setSeats(0); setMax(1600); }
 

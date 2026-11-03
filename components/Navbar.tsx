@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { displayName, useUser } from "@/lib/auth";
+import { useIsAdmin } from "@/lib/admin";
 
 const LINKS = [
   { href: "/voitures", label: "Nos voitures" },
@@ -17,11 +18,33 @@ export default function Navbar() {
   const path = usePathname();
   const router = useRouter();
   const { user } = useUser();
+  const isAdmin = useIsAdmin(user);
+  const links = isAdmin ? [...LINKS, { href: "/admin", label: "Admin" }] : LINKS;
 
   async function logout() {
     await supabase.auth.signOut();
     setOpen(false);
     router.push("/");
+  }
+
+  if (path.startsWith("/admin")) {
+    return (
+      <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur">
+        <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
+          <Link href="/admin" className="flex items-center gap-2">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent text-lg text-ink">D</span>
+            <span className="font-display text-2xl font-bold">Driveo</span>
+            <span className="ml-2 rounded-full bg-ink px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">Administration</span>
+          </Link>
+          {user && (
+            <div className="flex items-center gap-3">
+              <span className="hidden text-sm font-medium sm:inline">{displayName(user)}</span>
+              <button onClick={logout} className="btn btn-ghost !py-2">D&eacute;connexion</button>
+            </div>
+          )}
+        </nav>
+      </header>
+    );
   }
 
   return (
@@ -32,7 +55,7 @@ export default function Navbar() {
           <span className="font-display text-2xl font-bold">Driveo</span>
         </Link>
         <ul className="hidden items-center gap-1 md:flex">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <li key={l.href}>
               <Link
                 href={l.href}
@@ -60,7 +83,7 @@ export default function Navbar() {
       </nav>
       {open && (
         <div className="border-t border-line bg-paper px-5 pb-5 md:hidden">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="block border-b border-line py-3 font-medium">
               {l.label}
             </Link>

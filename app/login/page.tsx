@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -9,6 +9,9 @@ import CarPhoto from "@/components/CarPhoto";
 export default function LoginPage() {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "signup">("login");
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("mode") === "signup") setMode("signup");
+  }, []);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,10 +36,20 @@ export default function LoginPage() {
       if (data.session) router.push(nextUrl());
       else setInfo("Compte cr\u00e9\u00e9 ! V\u00e9rifie ta bo\u00eete mail pour confirmer, puis connecte-toi.");
     } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data: auth, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setBusy(false);
+        return setError(error.message);
+      }
+      // Un administrateur arrive directement sur /admin (sauf s'il venait d'une page precise)
+      const hasNext = new URLSearchParams(window.location.search).has("next");
+      let admin = false;
+      if (!hasNext && auth.user) {
+        const { data: row } = await supabase.from("admins").select("user_id").eq("user_id", auth.user.id).maybeSingle();
+        admin = !!row;
+      }
       setBusy(false);
-      if (error) return setError(error.message);
-      router.push(nextUrl());
+      router.push(admin ? "/admin" : nextUrl());
     }
   }
 

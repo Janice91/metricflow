@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AGENCIES, getCar } from "@/lib/cars";
+import { useCatalog } from "@/lib/catalog";
 import { cancelBooking, loadBookings, type Booking } from "@/lib/bookings";
 import { eur, fmtDate, todayISO } from "@/lib/pricing";
 import CarPhoto from "@/components/CarPhoto";
 import { useUser } from "@/lib/auth";
 
 export default function MesReservations() {
+  const { allAgencies: AGENCIES, getCar } = useCatalog();
   const [list, setList] = useState<Booking[] | null>(null);
   const { user, loading } = useUser();
   useEffect(() => {

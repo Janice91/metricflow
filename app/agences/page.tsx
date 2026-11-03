@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { AGENCIES } from "@/lib/cars";
+import { getCatalog } from "@/lib/serverCatalog";
 
 export const metadata = { title: "Nos agences \u2014 Driveo" };
 
-export default function Agences() {
+export default async function Agences() {
+  const { agencies: AGENCIES } = await getCatalog();
   return (
     <div className="mx-auto max-w-6xl px-5 py-10">
       <h1 className="font-display text-4xl font-bold">Nos agences</h1>
-      <p className="mt-2 text-muted">6 points de retrait en France : gares, a&#xE9;roports et centres-villes.</p>
+      <p className="mt-2 text-muted">{AGENCIES.length} points de retrait en France : gares, a&#xE9;roports et centres-villes.</p>
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {AGENCIES.map((a) => (
           <div key={a.id} className="card lift p-6">

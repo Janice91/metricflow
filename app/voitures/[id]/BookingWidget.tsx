@@ -1,16 +1,19 @@
 "use client";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AGENCIES } from "@/lib/cars";
+import { useCatalog } from "@/lib/catalog";
+import { useUser } from "@/lib/auth";
 import { OPTIONS, daysBetween, eur, quote, todayISO } from "@/lib/pricing";
 
 function Widget({ carId, pricePerDay }: { carId: string; pricePerDay: number }) {
   const sp = useSearchParams();
   const router = useRouter();
-  const [agence, setAgence] = useState(sp.get("agence") ?? AGENCIES[0].id);
+  const { agencies: AGENCIES } = useCatalog();
+  const [agence, setAgence] = useState(sp.get("agence") ?? AGENCIES[0]?.id ?? "");
   const [du, setDu] = useState(sp.get("du") ?? todayISO(1));
   const [au, setAu] = useState(sp.get("au") ?? todayISO(4));
   const [opts, setOpts] = useState<string[]>([]);
+  const { user, loading } = useUser();
 
   const days = daysBetween(du, au);
   const q = quote(pricePerDay, days, opts);
@@ -18,7 +21,9 @@ function Widget({ carId, pricePerDay }: { carId: string; pricePerDay: number }) 
 
   function go() {
     if (days < 1) return;
-    router.push(`/reservation?car=${carId}&agence=${agence}&du=${du}&au=${au}&opts=${opts.join(",")}`);
+    const target = `/reservation?car=${carId}&agence=${agence}&du=${du}&au=${au}&opts=${opts.join(",")}`;
+    if (!loading && !user) router.push(`/login?mode=signup&next=${encodeURIComponent(target)}`);
+    else router.push(target);
   }
 
   return (
@@ -66,7 +71,7 @@ function Widget({ carId, pricePerDay }: { carId: string; pricePerDay: number }) 
       ) : (
         <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-800">La date de fin doit &#xEA;tre apr&#xE8;s la date de d&#xE9;but.</p>
       )}
-      <button onClick={go} disabled={days < 1} className="btn btn-primary w-full disabled:opacity-50">R&#xE9;server maintenant</button>
+      <button onClick={go} disabled={days < 1} className="btn btn-primary w-full disabled:opacity-50">{!loading && !user ? "Cr\u00e9er un compte pour r\u00e9server" : "R\u00e9server maintenant"}</button>
       <p className="text-center text-xs text-muted">Annulation gratuite jusqu&apos;&#xE0; 48h avant &#xB7; Aucun paiement maintenant</p>
     </aside>
   );

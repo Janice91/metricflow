@@ -1,12 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AGENCIES } from "@/lib/cars";
+import { useCatalog } from "@/lib/catalog";
 import { daysBetween, todayISO } from "@/lib/pricing";
 
 export default function SearchForm({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
-  const [agence, setAgence] = useState(AGENCIES[0].id);
+  const { agencies: AGENCIES } = useCatalog();
+  const [agence, setAgence] = useState(AGENCIES[0]?.id ?? "");
   const [du, setDu] = useState(todayISO(1));
   const [au, setAu] = useState(todayISO(4));
   const days = daysBetween(du, au);

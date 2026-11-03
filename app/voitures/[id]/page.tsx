@@ -1,19 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CARS, getCar } from "@/lib/cars";
+import { getCatalog } from "@/lib/serverCatalog";
 import { eur } from "@/lib/pricing";
 import CarPhoto from "@/components/CarPhoto";
 import Stars from "@/components/Stars";
 import BookingWidget from "./BookingWidget";
 
-export function generateStaticParams() {
-  return CARS.map((c) => ({ id: c.id }));
-}
-
 export default async function CarPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const { getCar } = await getCatalog();
   const car = getCar(id);
-  if (!car) notFound();
+  if (!car || car.active === false) notFound();
 
   const specs = [
     ["\u{1f465}", "Places", String(car.seats)],

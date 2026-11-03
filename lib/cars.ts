@@ -18,6 +18,8 @@ export interface Car {
   reviews: number;
   badge?: string;
   photo?: string; // nom du fichier sur Wikimedia Commons (credit photo)
+  imageUrl?: string; // lien de photo ajoute par l'admin (optionnel)
+  active?: boolean; // false = voiture masquee sur le site
   description: string;
   features: string[];
 }
@@ -123,6 +125,7 @@ export interface Agency {
   phone: string;
   hours: string;
   airport?: boolean;
+  active?: boolean; // false = agence masquee sur le site
 }
 
 export const AGENCIES: Agency[] = [

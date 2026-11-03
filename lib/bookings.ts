@@ -18,7 +18,10 @@ export interface Booking {
 // Les reservations sont stockees dans la table "bookings" de Supabase.
 // La securite (RLS) garantit que chaque utilisateur ne voit que les siennes.
 export async function loadBookings(): Promise<Booking[]> {
-  const { data, error } = await supabase.from("bookings").select("*").order("created_at", { ascending: false });
+  const { data: s } = await supabase.auth.getSession();
+  const uid = s.session?.user.id;
+  if (!uid) return [];
+  const { data, error } = await supabase.from("bookings").select("*").eq("user_id", uid).order("created_at", { ascending: false });
   if (error || !data) return [];
   return data.map((r) => ({
     ref: r.ref,
@@ -37,7 +40,7 @@ export async function loadBookings(): Promise<Booking[]> {
 }
 
 // Renvoie un message d'erreur, ou null si tout s'est bien passe.
-export async function saveBooking(b: Booking): Promise<string | null> {
+export async function saveBooking(b: Booking, stripeSession?: string): Promise<string | null> {
   const { error } = await supabase.from("bookings").insert({
     ref: b.ref,
     car_id: b.carId,
@@ -50,6 +53,7 @@ export async function saveBooking(b: Booking): Promise<string | null> {
     name: b.name,
     email: b.email,
     phone: b.phone,
+    stripe_session: stripeSession ?? null,
   });
   return error ? error.message : null;
 }

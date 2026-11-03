@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CARS, CATEGORIES } from "@/lib/cars";
+import { CATEGORIES } from "@/lib/cars";
+import { getCatalog } from "@/lib/serverCatalog";
 import CarCard from "@/components/CarCard";
 import CarPhoto from "@/components/CarPhoto";
 import SearchForm from "@/components/SearchForm";
@@ -33,7 +34,8 @@ const FAQ = [
   { q: "Puis-je rendre la voiture dans une autre ville ?", a: "Oui, entre toutes nos agences, avec un petit suppl\u00e9ment selon la distance." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { cars: CARS } = await getCatalog();
   const featured = CARS.filter((c) => ["lamborghini-urus-performante", "chevrolet-corvette-c8", "ferrari-296-gtb", "rolls-royce-cullinan", "mercedes-amg-g63", "bentley-continental-gt"].includes(c.id));
   return (
     <>
@@ -55,7 +57,7 @@ export default function Home() {
           </div>
           <div className="relative">
             <div className="drive-in overflow-hidden rounded-[2rem] bg-ink shadow-2xl">
-              <CarPhoto car={CARS[0]} className="aspect-[16/10] w-full" />
+              {CARS[0] && <CarPhoto car={CARS[0]} className="aspect-[16/10] w-full" />}
             </div>
           </div>
         </div>
