@@ -262,6 +262,12 @@ public/                 Images
 
 ---
 
+## Tests
+
+Le plan qualité (21 cas de test) est dans `Driveo_Dossier_Stages_1-3.pdf`, section 6.2. À ce jour, 10 cas sont réussis, dont tous les cas de sécurité : accès `/admin` refusé à un client, appel `/api/checkout` sans compte refusé (401), prix falsifié ignoré, écriture dans `cars` refusée à un client (RLS).
+
+Avant chaque envoi : `npx tsc --noEmit` et `npm run build`.
+
 ## Sécurité
 
 - **Authentification** : Supabase Auth, jetons JWT.
