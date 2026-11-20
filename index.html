@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driveo : location de voitures de luxe</title>
+  <meta name="description" content="Driveo, site de location de voitures de luxe : catalogue, prix en direct, paiement Stripe et back-office administrateur.">
+  <style>
+    :root {
+      --bg: #f7f3ec;
+      --ink: #1b1b1f;
+      --muted: #5b5b63;
+      --gold: #d89a2b;
+      --card: #ffffff;
+      --dark: #15151a;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 243, 236, 0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e6dfd2;
+    }
+    .bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .logo { font-weight: 800; font-size: 1.2rem; text-decoration: none; }
+    .logo span { color: var(--gold); }
+    nav { display: flex; gap: 16px; flex-wrap: wrap; }
+    nav a { text-decoration: none; font-size: 0.95rem; color: var(--muted); }
+    nav a:hover { color: var(--ink); }
+
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .cover {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      background: var(--dark) url("images/cover.jpg") center / cover no-repeat;
+    }
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.7));
+    }
+    .cover-content {
+      position: relative;
+      padding: 16px;
+      max-width: 760px;
+    }
+    .cover h1 {
+      font-size: clamp(2.6rem, 8vw, 4.5rem);
+      margin: 0 0 8px;
+      letter-spacing: 0.02em;
+    }
+    .cover h1 span { color: var(--gold); }
+    .cover p {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      margin: 0 0 28px;
+      opacity: 0.92;
+    }
+
+    section { padding: 72px 16px; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      margin: 0 0 12px;
+    }
+    .lead { color: var(--muted); max-width: 680px; margin: 0 0 40px; }
+
+    .features {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .feature {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    }
+    .feature img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: #e9e2d4;
+    }
+    .feature-body { padding: 20px; }
+    .feature h3 { margin: 0 0 8px; font-size: 1.2rem; }
+    .feature p { margin: 0; color: var(--muted); }
+
+    .alt { background: var(--dark); color: #f2eee6; }
+    .alt .lead { color: #b9b4aa; }
+    .alt li { margin-bottom: 10px; }
+    .alt ul { padding-left: 20px; max-width: 680px; }
+    .cta { text-align: center; padding: 72px 16px; }
+    .cta p { color: var(--muted); margin: 0 0 24px; }
+
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid #e6dfd2;
+    }
+
+    @media (max-width: 640px) {
+      nav { gap: 12px; }
+      nav a { font-size: 0.85rem; }
+      section { padding: 56px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="bar">
+      <a class="logo" href="#accueil">Driveo<span>.</span></a>
+      <nav>
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#securite">Sécurité</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn" href="https://metricflow-tan.vercel.app" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </div>
+  </header>
+
+  <!-- Tâche 0 : introduction -->
+  <div id="accueil" class="cover">
+    <div class="cover-content">
+      <h1>Driveo<span>.</span></h1>
+      <p>La location de voitures de luxe, réservable en ligne en quelques clics.</p>
+      <a class="btn" href="https://metricflow-tan.vercel.app" target="_blank" rel="noopener">Voir l'application</a>
+    </div>
+  </div>
+
+  <!-- Tâche 1 : fonctionnalités -->
+  <section id="fonctionnalites">
+    <div class="wrap">
+      <h2>Fonctionnalités</h2>
+      <p class="lead">Trois fonctionnalités au cœur du site : le calcul du prix, le paiement et la gestion par l'administrateur.</p>
+      <div class="features">
+        <article class="feature">
+          <img src="images/prix.png" alt="Fiche voiture avec le prix total qui se met à jour selon les dates">
+          <div class="feature-body">
+            <h3>Prix recalculé en direct</h3>
+            <p>Le total se calcule selon les dates, les options et les remises (5 %, 10 % ou 15 % selon la durée). Le calcul est fait par le serveur : le prix ne peut pas être modifié depuis le navigateur.</p>
+          </div>
+        </article>
+        <article class="feature">
+          <img src="images/cover.jpg" alt="Une voiture de luxe réservable sur Driveo">
+          <div class="feature-body">
+            <h3>Paiement sécurisé</h3>
+            <p>Le client paie sur la page Stripe, hébergée par Stripe. Aucune donnée de carte ne passe par le site. Le paiement est en mode test.</p>
+          </div>
+        </article>
+        <article class="feature">
+          <img src="images/catalogue.png" alt="Page d'accueil de Driveo avec le catalogue et les agences">
+          <div class="feature-body">
+            <h3>Catalogue et agences</h3>
+            <p>Le catalogue présente les voitures par catégorie, avec une fiche détaillée pour chacune. Les agences, dont des points aéroport, sont accessibles depuis le même site.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="securite" class="alt">
+    <div class="wrap">
+      <h2>Sécurité</h2>
+      <p class="lead">Les règles sont appliquées sur le serveur et dans la base de données, pas seulement dans le navigateur.</p>
+      <ul>
+        <li>Compte obligatoire avant toute réservation.</li>
+        <li>Un client ne voit que ses propres réservations.</li>
+        <li>Seuls les administrateurs modifient le catalogue.</li>
+        <li>La clé secrète Stripe reste côté serveur.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tâche 2 : à propos -->
+  <section id="a-propos">
+    <div class="wrap">
+      <h2>À propos</h2>
+      <p class="lead">Driveo est né de mon projet de fin de formation à Holberton School. J'ai voulu construire un vrai site de location, du catalogue jusqu'au paiement, pour faire les choses bien : un prix qui ne peut pas être falsifié, des droits gérés dans la base de données, et une mise en ligne automatique.</p>
+      <p class="lead">Driveo est un projet de fin de formation à Holberton School, réalisé seule (projet solo). <a href="https://www.holbertonschool.com" target="_blank" rel="noopener">En savoir plus sur Holberton School</a>.</p>
+      <h3>Équipe</h3>
+      <ul>
+        <li>Janice Kouakou : <a href="https://github.com/Janice91" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+      <h3>Code source</h3>
+      <p><a href="https://github.com/Janice91/metricflow" target="_blank" rel="noopener">github.com/Janice91/metricflow</a></p>
+    </div>
+  </section>
+
+  <div id="contact" class="cta">
+    <h2>Essayer Driveo</h2>
+    <p>Crée un compte, choisis une voiture et réserve en ligne.</p>
+    <a class="btn" href="https://metricflow-tan.vercel.app" target="_blank" rel="noopener">Ouvrir l'application</a>
+  </div>
+
+  <footer>
+    <p>Driveo, projet Holberton School réalisé par Janice Kouakou. <a href="https://github.com/Janice91/metricflow" target="_blank" rel="noopener">Voir le code sur GitHub</a></p>
+  </footer>
+
+</body>
+</html>
